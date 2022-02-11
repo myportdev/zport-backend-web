@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "pm2 start ecosystem.json",
+    "stop": "pm2 stop ecosystem.json"
   },
   "repository": {
     "type": "git",

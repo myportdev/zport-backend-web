@@ -1,0 +1,9 @@
+{
+    "apps": [
+        {
+            "name": "test_codedeploy_express",
+            "script": "./server.js",
+            "watch": true
+        }
+    ]
+}
