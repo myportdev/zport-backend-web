@@ -44,9 +44,9 @@ const auth_email = async (req, res, next) => {
     let emailParam = {
         toEmail: email, // 수신할 이메일
 
-        subject: "ZPORT - 해당 링크를 통해 비밀번호를 재설정 해주세요", // 메일 제목
+        subject: "ZPORT - 해당 인증번호를 입력해주세요.", // 메일 제목
 
-        text: ``, // 메일 내용
+        text: `오른쪽 숫자 6자리를 입력해주세요 : `, // 메일 내용
     };
     console.log(configuration().google_user);
     console.log(configuration().google_pass);

@@ -7,7 +7,7 @@ const register = async (req, res, next) => {
         const { email, password, name, birth, phone, address, college, major, grade, interest, gender } = req.body;
         const user_status = await User.exists({ email });
         if (user_status) {
-            res.status(400).json({
+            res.status(401).json({
                 message: "해당 이메일이 이미 존재합니다.",
             });
             return;

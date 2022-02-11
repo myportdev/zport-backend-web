@@ -8,7 +8,6 @@ const change_password = async (req, res, next) => {
         const result = bcrypt.compareSync(password, user.password);
         if (!result) {
             const hash_password = bcrypt.hashSync(password, 10);
-            await User.findOneAndUpdate({ email }, { password: hash_password });
             res.status(200).json({
                 message: "비밀번호가 정상적으로 변경되었습니다.",
             });
