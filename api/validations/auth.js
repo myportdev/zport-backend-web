@@ -1,0 +1,73 @@
+import Joi from "joi";
+
+const loginSchema = Joi.object({
+    email: Joi.string()
+        .email({ tlds: { allow: false } })
+        .required(),
+    password: Joi.string().required().trim(),
+});
+
+const tokenSchema = Joi.object({
+    authorization: Joi.required(),
+    refresh: Joi.required(),
+});
+
+const registerSchema = Joi.object({
+    email: Joi.string()
+        .email({ tlds: { allow: false } })
+        .required(),
+    password: Joi.string()
+        .required()
+        .trim()
+        .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{8,16}$/),
+    name: Joi.string().required().trim(),
+    birth: Joi.string()
+        .required()
+        .length(6)
+        .trim(true)
+        .regex(/^[0-9]+$/),
+    phone: Joi.string()
+        .required()
+        .length(11)
+        .trim(true)
+        .regex(/^[0-9]+$/),
+    address: Joi.string().required().trim(),
+    college: Joi.string().required().trim(),
+    major: Joi.string().required().trim(),
+    grade: Joi.string().required().trim(),
+    gender: Joi.string().valid("man", "female").required(),
+    interest_fields: Joi.string(),
+    interest_company_type: Joi.string(),
+    interest_duty: Joi.string(),
+});
+
+const authPhoneSchema = Joi.object({
+    phone: Joi.string()
+        .required()
+        .length(11)
+        .trim(true)
+        .regex(/^[0-9]+$/),
+});
+
+const authEmailSchema = Joi.object({
+    email: Joi.string()
+        .email({ tlds: { allow: false } })
+        .required(),
+});
+
+const changePasswordSchema = Joi.object({
+    email: Joi.string()
+        .email({ tlds: { allow: false } })
+        .required(),
+    password: Joi.string()
+        .required()
+        .trim()
+        .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{8,16}$/),
+});
+
+export { loginSchema };
+export { tokenSchema };
+export { registerSchema };
+export { authPhoneSchema };
+export { authEmailSchema };
+export { changePasswordSchema };
