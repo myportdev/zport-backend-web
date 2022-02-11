@@ -1,7 +1,7 @@
 {
     "apps": [
         {
-            "name": "test_codedeploy_express",
+            "name": "myport_web",
             "script": "./server.js",
             "watch": true
         }
