@@ -3,7 +3,7 @@ import configuration from "../configuration.js";
 
 const connect = () => {
     mongoose
-        .connect(configuration().database_url_1, {
+        .connect(configuration().database_url, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
