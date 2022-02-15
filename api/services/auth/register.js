@@ -20,8 +20,6 @@ const register = async (req, res, next) => {
             interest_documents = await Interest.find().where("name").in(interest_array).exec();
         }
 
-        await User.collection.dropIndexes();
-
         await User.create({
             email,
             password: hash_password,
