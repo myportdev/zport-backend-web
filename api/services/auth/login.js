@@ -14,9 +14,11 @@ const login = async (req, res, next) => {
                 const accessToken = jwt_util.sign(user.id);
                 const refreshToken = jwt_util.refresh();
                 await cache.set(user.id, refreshToken);
+                console.log(await cache.get(user.id));
                 res.status(200).json({
                     message: "success login",
                     token: {
+                        user_id: user.id,
                         accessToken,
                         refreshToken,
                     },

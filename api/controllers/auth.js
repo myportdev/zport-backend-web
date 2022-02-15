@@ -1,6 +1,7 @@
 import express from "express";
 import { loginSchema, tokenSchema, registerSchema, authPhoneSchema, authEmailSchema, changePasswordSchema } from "../validations/auth.js";
 import validator from "express-joi-validation";
+import { check_object_id } from "../../middlewares/objectid-valid.js";
 import login from "../services/auth/login.js";
 import logout from "../services/auth/logout.js";
 import refresh_token from "../services/auth/refresh.js";
@@ -14,7 +15,7 @@ const verify = validator.createValidator({});
 
 router.post("/token", verify.body(loginSchema), login);
 
-router.post("/logout", logout);
+router.post("/logout/:user_id", check_object_id, logout);
 
 router.post("/users", verify.body(registerSchema), register);
 
