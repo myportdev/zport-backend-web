@@ -1,6 +1,7 @@
 import User from "../../../models/User.js";
 import bcrypt from "bcryptjs";
 import Interest from "../../../models/Interest.js";
+import University from "../../../models/University.js";
 
 const register = async (req, res, next) => {
     try {
@@ -19,7 +20,8 @@ const register = async (req, res, next) => {
             const interest_array = interest.split(" ");
             interest_documents = await Interest.find().where("name").in(interest_array).exec();
         }
-
+        const user_college = await University.findOne({ university_name: college });
+        console.log(user_college._id);
         await User.create({
             email,
             password: hash_password,
@@ -27,7 +29,7 @@ const register = async (req, res, next) => {
             birth,
             phone,
             address,
-            college,
+            college: user_college,
             major,
             grade,
             gender,
