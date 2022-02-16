@@ -37,6 +37,7 @@ const registerSchema = Joi.object({
     grade: Joi.string().required().trim(),
     gender: Joi.string().valid("male", "female").required(),
     interest: Joi.string(),
+    promotion: Joi.boolean(),
 });
 
 const authPhoneSchema = Joi.object({
