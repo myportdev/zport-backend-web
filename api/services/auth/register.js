@@ -21,8 +21,7 @@ const register = async (req, res, next) => {
             interest_documents = await Interest.find().where("name").in(interest_array).exec();
         }
 
-        const user_college = await University.findOne({ university_name: college });
-        console.log(user_college._id);
+        const user_college = await University.findOne({ university_name: college }).exec();
 
         await User.create({
             email,
