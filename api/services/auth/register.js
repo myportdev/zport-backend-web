@@ -5,7 +5,7 @@ import University from "../../../models/University.js";
 
 const register = async (req, res, next) => {
     try {
-        const { email, password, name, birth, phone, address, college, major, grade, interest, gender } = req.body;
+        const { email, password, name, birth, phone, address, college, major, grade, interest, gender, promotion } = req.body;
         const user_status = await User.exists({ email });
         if (user_status) {
             res.status(401).json({
@@ -35,6 +35,7 @@ const register = async (req, res, next) => {
             grade,
             gender,
             interest: interest_documents,
+            promotion,
         });
         res.status(201).json({
             message: "success register",
