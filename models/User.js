@@ -27,7 +27,8 @@ const userSchema = Schema({
         type: String,
     },
     college: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "University",
     },
     major: {
         type: String,
