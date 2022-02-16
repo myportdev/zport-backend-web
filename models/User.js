@@ -60,7 +60,6 @@ const userSchema = Schema({
 
     promotion: {
         type: Boolean,
-        default: false,
     },
 });
 
