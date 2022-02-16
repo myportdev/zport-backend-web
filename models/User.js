@@ -57,6 +57,10 @@ const userSchema = Schema({
             ref: "Interest",
         },
     ],
+
+    promotion: {
+        type: Boolean,
+    },
 });
 
 export default mongoose.model("User", userSchema);
