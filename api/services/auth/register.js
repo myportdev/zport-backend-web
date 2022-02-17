@@ -5,6 +5,7 @@ import University from "../../../models/University.js";
 import mongoose from "mongoose";
 import configuration from "../../../configuration.js";
 import { WebClient, LogLevel } from "@slack/web-api";
+import cache from "../../util/cache.js";
 
 const send = async (name, date, phone_number, email, total_join) => {
     const client = new WebClient(configuration().slack_api_token, {
@@ -66,6 +67,9 @@ const register = async (req, res, next) => {
             promotion,
         });
         const user_count = await User.count();
+        const today = new Date();
+
+        console.log(String(user.join_date));
         await send(user.name, user.join_date, user.phone, user.email, user_count);
         await session.commitTransaction();
         session.endSession();
