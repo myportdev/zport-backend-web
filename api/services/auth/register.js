@@ -7,7 +7,7 @@ import configuration from "../../../configuration.js";
 import { WebClient, LogLevel } from "@slack/web-api";
 import cache from "../../util/cache.js";
 
-const send = async (name, date, phone_number, email, total_join) => {
+const send = async (name, date, phone_number, email, total_join, today_join) => {
     const client = new WebClient(configuration().slack_api_token, {
         logLevel: LogLevel.DEBUG,
     });
@@ -19,7 +19,7 @@ const send = async (name, date, phone_number, email, total_join) => {
             text: `${name}님이 가입하셨습니다. ${date} 
         전화번호:${phone_number} 
         이메일:${email} 
-        오늘 가입자 수: 13 
+        오늘 가입자 수: ${today_join} 
         총 가입 자수:${total_join}`,
         });
 
@@ -66,14 +66,11 @@ const register = async (req, res, next) => {
             interest: interest_documents,
             promotion,
         });
-        const user_count = await User.count();
-        const today = new Date();
+        const total_join = await User.count();
+        const join_data = await cache.get("today_join");
 
-<<<<<<< HEAD
-        console.log(String(user.join_date));
-=======
->>>>>>> develop
-        await send(user.name, user.join_date, user.phone, user.email, user_count);
+        await send(user.name, user.join_date, user.phone, user.email, total_join, parseInt(join_data) + parseInt(1));
+        await cache.set("today_join", parseInt(join_data) + parseInt(1));
         await session.commitTransaction();
         session.endSession();
         res.status(201).json({
