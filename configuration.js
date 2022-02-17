@@ -10,6 +10,7 @@ const twilio_authtoken = process.env.TWILIO_AUTHTOKEN;
 const secret = process.env.SECRET;
 const google_user = process.env.GOOGLE_USER;
 const google_pass = process.env.GOOGLE_PASS;
+const slack_api_token = process.env.SLACK_API_TOKEN;
 
 export default () => ({
     port,
@@ -21,4 +22,5 @@ export default () => ({
     secret,
     google_user,
     google_pass,
+    slack_api_token,
 });
