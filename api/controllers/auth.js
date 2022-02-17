@@ -28,6 +28,6 @@ router.get("/email/:email", verify.params(authEmailSchema), email);
 
 router.get("/email/exist/:email", verify.params(existEmailSchema), exist_email);
 
-router.patch("/password", verify.body(changePasswordSchema), change_password);
+router.put("/password", verify.body(changePasswordSchema), change_password);
 
 export default router;

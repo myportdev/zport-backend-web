@@ -3,6 +3,30 @@ import bcrypt from "bcryptjs";
 import Interest from "../../../models/Interest.js";
 import University from "../../../models/University.js";
 import mongoose from "mongoose";
+import configuration from "../../../configuration.js";
+import { WebClient, LogLevel } from "@slack/web-api";
+
+const send = async (name, date, phone_number, email, total_join) => {
+    const client = new WebClient(configuration().slack_api_token, {
+        logLevel: LogLevel.DEBUG,
+    });
+    const channelId = "C033K9THDS6";
+
+    try {
+        const result = await client.chat.postMessage({
+            channel: channelId,
+            text: `${name}님이 가입하셨습니다. ${date} 
+        전화번호:${phone_number} 
+        이메일:${email} 
+        오늘 가입자 수: 13 
+        총 가입 자수:${total_join}`,
+        });
+
+        console.log(result);
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 const register = async (req, res, next) => {
     const session = await mongoose.startSession();
@@ -27,7 +51,7 @@ const register = async (req, res, next) => {
 
         const user_college = await University.findOne({ university_name: college }).exec();
 
-        await User.create({
+        const user = await User.create({
             email,
             password: hash_password,
             name,
@@ -41,6 +65,8 @@ const register = async (req, res, next) => {
             interest: interest_documents,
             promotion,
         });
+        const user_count = await User.count();
+        await send(user.name, user.join_date, user.phone, user.email, user_count);
         await session.commitTransaction();
         session.endSession();
         res.status(201).json({
