@@ -61,6 +61,11 @@ const userSchema = Schema({
     promotion: {
         type: Boolean,
     },
+
+    join_date: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 export default mongoose.model("User", userSchema);
