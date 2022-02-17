@@ -69,7 +69,10 @@ const register = async (req, res, next) => {
         const user_count = await User.count();
         const today = new Date();
 
+<<<<<<< HEAD
         console.log(String(user.join_date));
+=======
+>>>>>>> develop
         await send(user.name, user.join_date, user.phone, user.email, user_count);
         await session.commitTransaction();
         session.endSession();

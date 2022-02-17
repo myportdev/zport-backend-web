@@ -5,6 +5,8 @@ import cors from "cors";
 import logger from "./middlewares/logger.js";
 import { apiLimiter } from "./middlewares/api-limit.js";
 import helmet from "helmet";
+import { scheduleJob } from "node-schedule";
+import cache from "./api/util/cache.js";
 
 import AdminBro from "admin-bro";
 import AdminBroExpress from "@admin-bro/express";
@@ -67,6 +69,10 @@ const express_server = () => {
     app.use(function (err, req, res, next) {
         console.error(err.stack);
         res.status(500).send("Something broke!");
+    });
+
+    const j = scheduleJob("* * 0 * * *", async () => {
+        await cache.set("today_join", 0);
     });
 
     app.listen(configuration().port, () => {
