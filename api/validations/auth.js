@@ -54,10 +54,14 @@ const authEmailSchema = Joi.object({
         .required(),
 });
 
-const changePasswordSchema = Joi.object({
+const existEmailSchema = Joi.object({
     email: Joi.string()
         .email({ tlds: { allow: false } })
         .required(),
+});
+
+const changePasswordSchema = Joi.object({
+    token: Joi.required(),
     password: Joi.string()
         .required()
         .trim()
@@ -70,3 +74,4 @@ export { registerSchema };
 export { authPhoneSchema };
 export { authEmailSchema };
 export { changePasswordSchema };
+export { existEmailSchema };

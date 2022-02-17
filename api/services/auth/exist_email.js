@@ -1,24 +1,23 @@
-import cache from "../../util/cache.js";
 import User from "../../../models/User.js";
 import mongoose from "mongoose";
 
-const logout = async (req, res, next) => {
+const exist_email = async (req, res, next) => {
     const session = await mongoose.startSession();
     try {
         session.startTransaction();
-        const { user_id } = req.params;
-        const user_status = await User.exists({ _id: user_id });
+        const { email } = req.params;
+        const user_status = await User.exists({ email });
         await session.commitTransaction();
         session.endSession();
-        if (!user_status) {
+        if (user_status) {
             res.status(400).json({
-                message: "fail logout",
+                message: "해당 이메일이 이미 존재합니다.",
             });
             return;
         }
-        await cache.del(user_id);
+
         res.status(200).json({
-            message: "success logout",
+            message: "해당 이메일 사용가능합니다.",
         });
     } catch (error) {
         await session.abortTransaction();
@@ -27,4 +26,4 @@ const logout = async (req, res, next) => {
     }
 };
 
-export default logout;
+export default exist_email;

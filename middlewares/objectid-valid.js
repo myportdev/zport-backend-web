@@ -8,6 +8,7 @@ export const check_object_id = (req, res, next) => {
         res.status(400).json({
             message: "objectid 형식이 맞지 않습니다.",
         });
+        return;
     }
     return next();
 };
