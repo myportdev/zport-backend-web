@@ -55,7 +55,7 @@ const register = async (req, res, next) => {
         }
 
         const user_college = await University.findOne({ university_name: college }).exec();
-        const join_date = `${moment().format("YYYY년 MM월 DD일")} ${moment().format("hh시 mm분")}`;
+        const join_date = `${moment().format("YYYY년 MM월 DD일")} ${moment().format("HH시 mm분")}`;
         console.log(join_date);
         const user = await User.create({
             email,
