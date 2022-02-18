@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import configuration from "../../../configuration.js";
 import { WebClient, LogLevel } from "@slack/web-api";
 import cache from "../../util/cache.js";
+import moment from "moment";
 
 const send = async (name, date, phone_number, email, total_join, today_join) => {
     const client = new WebClient(configuration().slack_api_token, {
@@ -34,9 +35,12 @@ const register = async (req, res, next) => {
     try {
         session.startTransaction();
         const { email, password, name, birth, phone, address, college, major, grade, interest, gender, promotion } = req.body;
+
         const hash_password = bcrypt.hashSync(password, 10);
         const user_status = await User.exists({ email });
+
         await session.commitTransaction();
+
         if (user_status) {
             res.status(400).json({
                 message: "해당 이메일이 이미 존재합니다.",
@@ -51,7 +55,8 @@ const register = async (req, res, next) => {
         }
 
         const user_college = await University.findOne({ university_name: college }).exec();
-
+        const join_date = `${moment().format("YYYY년 MM월 DD일")} ${moment().format("hh시 mm분")}`;
+        console.log(join_date);
         const user = await User.create({
             email,
             password: hash_password,
@@ -65,14 +70,17 @@ const register = async (req, res, next) => {
             gender,
             interest: interest_documents,
             promotion,
+            join_date,
         });
         const total_join = await User.count();
         const join_data = await cache.get("today_join");
-        console.log(user);
+
         await send(user.name, user.join_date, user.phone, user.email, total_join, parseInt(join_data) + parseInt(1));
         await cache.set("today_join", parseInt(join_data) + parseInt(1));
+
         await session.commitTransaction();
         session.endSession();
+
         res.status(201).json({
             message: "success register",
         });
