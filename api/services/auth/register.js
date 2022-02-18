@@ -68,7 +68,7 @@ const register = async (req, res, next) => {
         });
         const total_join = await User.count();
         const join_data = await cache.get("today_join");
-
+        console.log(user);
         await send(user.name, user.join_date, user.phone, user.email, total_join, parseInt(join_data) + parseInt(1));
         await cache.set("today_join", parseInt(join_data) + parseInt(1));
         await session.commitTransaction();
