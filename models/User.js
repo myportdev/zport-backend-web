@@ -63,8 +63,7 @@ const userSchema = Schema({
     },
 
     join_date: {
-        type: Date,
-        default: Date.now,
+        type: String,
     },
 });
 
