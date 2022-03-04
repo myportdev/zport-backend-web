@@ -16,7 +16,6 @@ const send = async (name, date, phone_number, email, total_join, today_join) => 
         const result = await client.chat.postMessage({
             channel: channelId,
             text: `${name}님이 가입하셨습니다. ${date} 
-        전화번호:${phone_number} 
         이메일:${email} 
         오늘 가입자 수: ${today_join} 
         총 가입 자수:${total_join}`,
@@ -53,7 +52,7 @@ const register = async (req, res, next) => {
         const total_join = await User.count();
         const join_data = await cache.get("today_join");
 
-        await send(user.name, user.join_date, user.phone, user.email, total_join, parseInt(join_data) + parseInt(1));
+        await send(user.name, user.join_date, user.email, total_join, parseInt(join_data) + parseInt(1));
         await cache.set("today_join", parseInt(join_data) + parseInt(1));
 
         await session.commitTransaction();
