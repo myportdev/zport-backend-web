@@ -1,7 +1,5 @@
 import User from "../../../models/User.js";
-import bcrypt from "bcryptjs";
-import Interest from "../../../models/Interest.js";
-import University from "../../../models/University.js";
+
 import mongoose from "mongoose";
 import configuration from "../../../configuration.js";
 import { WebClient, LogLevel } from "@slack/web-api";
@@ -34,9 +32,7 @@ const register = async (req, res, next) => {
     const session = await mongoose.startSession();
     try {
         session.startTransaction();
-        const { email, password, name, birth, phone, address, college, major, grade, interest, gender, promotion } = req.body;
-
-        const hash_password = bcrypt.hashSync(password, 10);
+        const { email, name } = req.body;
         const user_status = await User.exists({ email });
 
         await session.commitTransaction();
@@ -48,32 +44,10 @@ const register = async (req, res, next) => {
             session.endSession();
             return;
         }
-        let interest_documents = [];
-        if (interest) {
-            const interest_array = interest.split(" ");
-            interest_documents = await Interest.find().where("name").in(interest_array).exec();
-        }
-
-        const user_college = await University.findOne({ university_name: college }).exec();
-<<<<<<< HEAD
         const join_date = `${moment().format("YYYY년 MM월 DD일")} ${moment().format("HH시 mm분")}`;
-=======
-        const join_date = `${moment().format("YYYY년 MM월 DD일")} ${moment().subtract(3, "h").format("hh시 mm분")}`;
->>>>>>> develop
-        console.log(join_date);
         const user = await User.create({
             email,
-            password: hash_password,
             name,
-            birth,
-            phone,
-            address,
-            college: user_college,
-            major,
-            grade,
-            gender,
-            interest: interest_documents,
-            promotion,
             join_date,
         });
         const total_join = await User.count();
