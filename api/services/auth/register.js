@@ -6,7 +6,7 @@ import { WebClient, LogLevel } from "@slack/web-api";
 import cache from "../../util/cache.js";
 import moment from "moment";
 
-const send = async (name, date, phone_number, email, total_join, today_join) => {
+const send = async (name, date, email, total_join, today_join) => {
     const client = new WebClient(configuration().slack_api_token, {
         logLevel: LogLevel.DEBUG,
     });
